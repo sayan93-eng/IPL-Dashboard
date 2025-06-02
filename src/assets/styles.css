@@ -1,0 +1,664 @@
+.wrapper{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+    color: #ffffff !important;
+    text-decoration: underline white;
+    text-underline-offset: 8px;
+}
+
+.nav {
+    position: fixed;
+    z-index:1;
+    top: 0;
+    height: auto;
+    width: 100%;
+    background-color: #1f3144;
+    border-bottom: 1px solid #24d5ec;
+    padding: 1rem;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #24d5ec;
+}
+
+.nav-item {
+    list-style: none;
+}
+
+.nav-item a {
+    color: #24d5ec;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out;
+}
+
+.nav-item a:hover {
+    color: #287ed4;
+    background-color: #f0f4f8;
+    border-radius: 4px;
+}
+
+.nav-item a.active {
+    color: #24d5ec !important;
+    background-color: #ffffff !important;
+    border-radius: 4px !important;
+    box-shadow: 0 2px 4px rgba(36, 213, 236, 0.2) !important;
+    border-bottom: 2px solid #24d5ec !important;
+}
+
+.nav-item a.active:hover {
+    color: #24d5ec !important;
+    background-color: #ffffff !important;
+}
+
+.footer{
+    position: fixed;
+    z-index: 1;
+    bottom: 0;
+    height: auto;
+    width: 100%;
+    background-color: #1f3144;
+    color: #24d5ec;
+    border-top: 1px solid #24d5ec;
+    padding: 10px 0 10px 0;
+}
+
+.footer p{
+    color: inherit;
+    margin: 0;  /* Reset margin to ensure consistent spacing */
+    padding: 0 10px;     
+}
+
+.card {
+    border-radius: '8px';
+    box-shadow: 0 0px 8px var(--team-color);
+}
+
+.card-deck{
+    margin: 30px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    padding: 20px;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.card-deck-container {
+    border-radius: 5px;
+    margin: 30px 0;
+    box-shadow: 0px -10px 5px var(--team-color), 0px 1px 2px var(--team-color);
+    background-color: rgb(0, 0, 0);
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.card:hover .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+}
+
+.card-front {
+    background: var(--team-color);
+    opacity: 0.8;
+    color: white;
+    border: 1px solid var(--team-color);
+}
+
+.card-back {
+    background:var(--team-color);
+    opacity: 1;
+    color: white;
+    transform: rotateY(180deg);
+}
+
+.card-text .p {
+    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+}
+
+
+
+.partnership-container {
+    padding: 20px;
+    border-radius: 8px;
+    background-color: rgb(0, 0, 0);
+    box-shadow: 0px -10px 5px var(--team-color), 0px 1px 2px var(--team-color);     
+    margin: 30px 0;
+}
+
+.partnership-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.partnership-container li {
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: rgb(0, 0, 0);
+    border-bottom: 1px solid var(--team-color);
+}
+
+.batting-container {
+    border-radius: 8px;
+    background-color: rgb(0, 0, 0);
+    box-shadow: 0px -10px 10px var(--batting-team-color), 0px 10px 10px var(--batting-team-color) !important;
+    padding: 20px;
+    margin: 30px 0;
+}
+
+.batting-header {
+    padding: 10px;
+    margin: 30px 0;
+    text-align: center;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+    border-radius: 5px;
+    box-shadow: 0px -10px 5px var(--batting-team-color),  0px 1px 2px var(--batting-team-color) !important;
+}
+
+.bowling-container {
+    border-radius: 8px;
+    background-color: rgb(0, 0, 0);
+    box-shadow: 0px -10px 10px var(--bowling-team-color), 0px 10px 10px var(--bowling-team-color) !important;
+    padding: 20px;
+    margin: 120px 0;
+}
+
+
+.bowling-header {
+    padding: 10px;
+    margin: 30px 0;
+    text-align: center;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+    border-radius: 5px;
+    box-shadow: 0px -10px 5px var(--bowling-team-color), 0px 1px 2px var(--bowling-team-color) !important;
+}
+
+.batting-scorecard {
+    padding: 10px;
+    margin: 30px 0;
+    background-color: rgb(0, 0, 0);
+    border-radius: 5px;
+    box-shadow: 0px -10px 5px var(--batting-team-color), 0px 1px 2px var(--batting-team-color);
+}
+
+.bowling-scorecard{
+    padding: 10px;
+    margin: 30px 0;
+    background-color: rgb(0, 0, 0);
+    border-radius: 5px;
+    box-shadow: 0px -10px 5px var(--bowling-team-color), 0px 1px 2px var(--bowling-team-color);
+}
+/* Tab Styles */
+/* Tab Styles */
+/* Tab Styles */
+#tabs-container .tab {
+    border-bottom: 1px solid #d6d6d6 !important;
+    
+    font-weight: bold !important;
+    border-radius: 5px !important;
+    background-color: #1f3144 !important;
+    color: #24d5ec !important;
+    transition: all 0.3s ease-in-out !important;
+    cursor: pointer !important;
+}
+
+#tabs-container .tab:hover {
+    background-color: #ffffff !important;
+    color: #287ed4 !important;
+    box-shadow: 0 2px 4px rgba(36, 213, 236, 0.2) !important;
+}
+
+#tabs-container .tab--selected {
+    border-top: 1px solid #d6d6d6 !important;
+    border-bottom: 1px solid #d6d6d6 !important;
+    background-color: #ffffff !important;
+    color: #24d5ec !important;
+    padding: 6px !important;
+    border-radius: 5px !important;
+}
+
+#tabs-container .tab--selected:hover {
+    background-color: #ffffff !important;
+    color: #24d5ec !important;
+    box-shadow: 0 2px 4px rgba(36, 213, 236, 0.2) !important;
+}
+
+.bar-plot-container{
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0px -10px 10px var(--team-color), 0px 10px 10px var(--team-color) !important;
+    padding: 20px;
+    margin: 30px 0;
+}
+
+.line-plot-container {
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: -10px 0 10px var(--batting-team-color), 10px 0 10px var(--bowling-team-color), 0px 10px 10px var(--bowling-team-color), 0px -10px 10px var(--batting-team-color) !important;
+    padding: 20px;
+    margin: 30px 0;
+}
+
+.pie-chart-container {
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0px -10px 10px var(--team-color), 0px 10px 10px var(--team-color) !important;
+    padding: 20px;
+    margin: 30px 0;
+}
+
+
+
+.carousel-caption {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    padding: 10px;
+    background-color: rgba(31, 49, 68, 0.7);
+    border-radius: 5px;
+}
+
+.carousel-caption h3 {
+    color: #24d5ec;
+    margin-bottom: 10px;
+}
+
+.carousel-caption p {
+    color: white;
+}
+
+/* Position variations - add class to carousel component */
+.caption-top .carousel-caption {
+    top: 20px;
+}
+
+.caption-bottom .carousel-caption {
+    bottom: 20px;
+}
+
+#season-dropdown .Select-control,
+#match-dropdown .Select-control,
+#batter-dropdown .Select-control,
+#bowler-dropdown .Select-control {
+    border-radius: 5px;
+    box-shadow: 0 0 10px #24d5ec !important;
+    transition: box-shadow 0.3s ease;
+    border: none !important;
+}
+
+#season-dropdown .Select-control:hover,
+#match-dropdown .Select-control:hover, 
+#batter-dropdown .Select-control:hover,
+#bowler-dropdown .Select-control:hover{
+    box-shadow: 0 0 15px #24d5ec !important;
+}
+
+
+#tabs-container{
+    margin-top: 0;
+    padding: 20px;
+}
+
+#tabs-content {
+    /*border-radius: 5px;
+    box-shadow: 0 0 10px #24d5ec;*/
+    padding: 20px;
+}
+
+/* ################################################################################### SEASON APP ############################################################################ */
+
+.matches-container {
+    background-color: black;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0px -10px 10px #24d5ec, 0 10px 10px #24d5ec;
+    padding: 20px;
+    margin: 30px 0;
+}
+
+.matches-header {
+    padding: 10px;
+    margin: 30px 0;
+    text-align: center;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+    border-radius: 5px;
+    box-shadow: 0px -10px 5px #24d5ec,  0px 1px 2px #24d5ec!important;
+
+}
+
+.matches-list {
+    padding: 30px;
+    margin: 30px 0;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0px -10px 5px #24d5ec,  0px 1px 2px #24d5ec!important;
+}
+
+
+
+/* Vertical Timeline Styles */
+.vtl, .vtl * {
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.vtl {
+    padding-left: 50px;
+    width: 100%;
+    position: relative;
+}
+
+.vtl::before {
+    content: "";
+    width: 5px;
+    background: #24d5ec;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 21px;
+}
+
+.event {
+    padding: 20px;  
+    margin: 60px 0;
+    border-radius: 5px;
+    background: #000000;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 -1px 2px var(--team-color), 0 1px 2px var(--team-color);
+}
+
+.event .date {
+    align-self: center;
+    padding:10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+    border-bottom: 1px solid;
+}
+
+.event .team-score {
+    align-self: center;
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.team-score .name {
+    margin-bottom: 5px;
+}
+
+.team-score .score {
+    margin-bottom: 5px;
+}
+
+.team-score-1 {
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow:  0 0 5px var(--team-color), 0 0 5px var(--team-color);
+}
+
+.team-score-1 h4{
+    text-align: center;
+}
+
+.team-score-2 {
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 0 5px var(--team-color), 0 0 5px var(--team-color);
+}
+
+.team-score-2 h4{
+    text-align: center;
+}
+
+
+
+.event .txt {
+    align-self: center;
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 20px;
+}
+
+.txt h4{
+    text-align: center;
+}
+
+.txt .text-item-link {
+    background-color: #1f3144;
+    color: #24d5ec;
+    margin: 0;  /* Add this line to remove default margin */
+    padding: 10px;  /* Add padding to maintain visual spacing */
+    text-decoration: none;
+    box-shadow: 0 0 10px #24d5ec;
+}
+
+
+.txt .text-item-link:hover {
+    background-color: white;
+    color: #287ed4;
+    box-shadow: 0 0 15px #24d5ec;
+}
+
+/*
+.event:hover {
+    transform: translateX(10px);
+    box-shadow: 0 0 15px rgba(36, 213, 236, 0.3);
+}
+
+.event:hover::after {
+    transform: scale(1.5);  Makes dot 1.5 times larger on hover 
+    background: #24d5ec;  Optional: changes dot color on hover 
+    border-color: #fff;    Optional: swaps border color on hover
+}
+
+*/
+
+.event::after {
+    content: "";
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 4px solid var(--team-color);
+    background: #fff;
+    position: absolute;
+    top: 20%;
+    left: -34px;
+    transition: all 0.3s ease;  
+    transform-origin: center;  
+}
+
+
+
+.event::before {
+    content: "";
+    border: 10px solid transparent;
+    border-right-color: var(--team-color);
+    border-left: 0;
+    position: absolute;
+    top: 20%;
+    left: -10px;
+}
+
+/* ################################################################################### ALLTIME APP ############################################################################ */
+
+.Select-control {
+    border: 1px solid #24d5ec !important;
+    border-radius: 4px !important;
+    background-color: white !important;
+}
+
+.Select-menu-outer {
+    background-color: white !important;
+    border: 1px solid #24d5ec !important;
+    border-radius: 0 0 4px 4px !important;
+    z-index: 1000 !important;
+}
+
+.Select-value, .Select-placeholder {
+    color: black !important;
+}
+
+
+#stats-output-container {
+    padding: 20px !important;
+    width: 100% !important;
+}
+
+
+/* Add these styles to your styles.css file */
+
+.stats-container {
+    padding: 20px !important;
+    margin: 20px auto !important;
+    width: 100% !important;
+    background-color: black !important;
+    color: white !important;
+    border-radius: 8px !important;
+    box-shadow: 0px -10px 10px var(--team-color), 0 10px 10px var(--team-color) !important;
+}
+
+.stats-header {
+    text-align: center !important;
+    padding: 15px !important;
+    margin-top: 0 !important;
+    border-bottom: 2px solid var(--team-color);
+    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+}
+
+/* Stats section containers */
+.batting-stats-container,
+.bowling-stats-container,
+.misc-stats-container {
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    background-color: rgba(36, 213, 236, 0.1);
+}
+
+/* Section headers */
+.batting-stats-container h4,
+.bowling-stats-container h4,
+.misc-stats-container h4 {
+    color: white;
+    text-align: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--team-color);
+    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+}
+
+.stats-box {
+    display: flex !important;
+    justify-content: space-between !important;
+    padding: 15px !important;
+    border-radius: 4px !important;
+    margin: 20px 0 !important;
+}
+
+.stats-metric,
+.stats-value {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.stats-metric h5,
+.stats-value h5 {
+    margin: 8px 0 !important;
+    padding: 8px !important;
+    text-align: center !important;
+    border-radius: 4px !important;
+    font-size: 1rem !important;
+}
+
+.stats-metric h5 {
+    background-color: rgba(36, 213, 236, 0.1) !important;
+    color: #24d5ec !important;
+}
+
+.stats-value h5 {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Hover effects 
+.stats-box:hover {
+    background-color: rgba(36, 213, 236, 0.05) !important;
+    transition: background-color 0.3s ease !important;
+}
+*/
+
+/* Responsive styling */
+@media (max-width: 768px) {
+    .stats-box {
+        flex-direction: column;
+    }
+    
+    .stats-metric,
+    .stats-value {
+        width: 100%;
+    }
+}
+
+
+.metrics h5,
+.values h5 {
+    margin: 8px 0 !important;
+    padding: 8px !important;
+    text-align: center !important;
+    border-radius: 4px !important;
+    font-size: 1rem !important;
+}
+
+
+.metrics h5{
+    background-color: rgba(36, 213, 236, 0.1) !important;
+    color: #24d5ec !important;
+}
+
+.values h5 {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+}
