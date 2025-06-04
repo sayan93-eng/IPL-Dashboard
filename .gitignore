@@ -36,3 +36,26 @@ Thumbs.db
 # Project specific
 *.log
 .env
+
+# Railway
+.railway/
+
+# Production environment files  
+.env.production
+
+# Logs
+*.log
+logs/
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Build artifacts
+build/
+dist/
