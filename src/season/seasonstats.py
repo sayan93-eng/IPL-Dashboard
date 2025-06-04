@@ -135,7 +135,54 @@ def get_team_stats(season, team):
     (season_data['team1'] == team) | 
     (season_data['team2'] == team)
     ]
-    # Stats
+    # Top performer stats
+
+    # Get all match_ids in a season for the team
+    all_match_ids_in_a_season_for_team = team_data['id'].tolist()
+
+    # Get all deliveries from all matches in season for the team
+    deliveries_for_team = deliveries[deliveries['match_id'].isin(all_match_ids_in_a_season_for_team)]
+
+    # Get the batter with the most runs
+    batter_runs = deliveries_for_team.groupby('batter')['batsman_runs'].sum().reset_index()
+    batter_runs = batter_runs.sort_values(by='batsman_runs', ascending=False).reset_index(drop=True)
+    top_batter = batter_runs.iloc[0]
+
+    # Get the batter with the highest strike rate with more than 100 balls faced
+    deliveries_for_team['total_balls'] = deliveries_for_team.groupby('batter').cumcount() + 1
+    deliveries_for_team['strike_rate'] = (deliveries_for_team['batsman_runs'] / deliveries_for_team['total_balls']) * 100
+    top_striker = deliveries_for_team.groupby('batter').agg({'strike_rate': 'mean', 'total_balls': 'max'}).reset_index()
+    top_striker = top_striker[top_striker['total_balls'] > 100]
+    top_striker = top_striker.sort_values(by='strike_rate', ascending=False).reset_index(drop=True)
+    top_striker = top_striker.iloc[0]
+    strike_rate = top_striker['strike_rate']
+   
+
+    # Get the batter with the most 4s
+    number_of_4s = deliveries_for_team[deliveries_for_team['batsman_runs'] == 4].groupby('batter').size().reset_index(name='number_of_4s')
+    number_of_4s = number_of_4s.sort_values(by='number_of_4s', ascending=False).reset_index(drop=True)
+    top_4s_batter = number_of_4s.iloc[0]
+
+    # Get the batter with the most 6s
+    number_of_6s = deliveries_for_team[deliveries_for_team['batsman_runs'] == 6].groupby('batter').size().reset_index(name='number_of_6s')
+    number_of_6s = number_of_6s.sort_values(by='number_of_6s', ascending=False).reset_index(drop=True)
+    top_6s_batter = number_of_6s.iloc[0]
+
+    # Get the bowler with the most wickets
+    bowler_wickets = deliveries_for_team[deliveries_for_team['is_wicket'] == 1].groupby('bowler').size().reset_index(name='wickets')
+    bowler_wickets = bowler_wickets.sort_values(by='wickets', ascending=False).reset_index(drop=True)
+    top_bowler = bowler_wickets.iloc[0]
+
+    # Get the bowler with the lowest economy rate
+    #deliveries_for_team['economy_rate'] = deliveries_for_team['total_runs'] / (deliveries_for_team['total_balls'] / 6)
+    #top_economy_bowler = deliveries_for_team.groupby('bowler')['economy_rate'].mean().reset_index()
+    #top_economy_bowler = top_economy_bowler.sort_values(by='economy_rate', ascending=True).reset_index(drop=True)
+    #top_economy_bowler = top_economy_bowler.iloc[0]
+
+    # Get the bowler with the most dots
+    number_of_dots = deliveries_for_team[deliveries_for_team['total_runs'] == 0].groupby('bowler').size().reset_index(name='number_of_dots')
+    number_of_dots = number_of_dots.sort_values(by='number_of_dots', ascending=False).reset_index(drop=True)
+    top_dots_bowler = number_of_dots.iloc[0]
 
     # Total number of matches played
     matches_played = len(team_data)
@@ -189,7 +236,31 @@ def get_team_stats(season, team):
         'Lowest score batting first':batting_first_lowest_score,
         'Highest score batting second': batting_second_highest_score,
         'Lowest score batting second':batting_second_lowest_score,
-        'Win Loss Form': win_loss
+        'Win Loss Form': win_loss,
+        'Most Runs': {
+            'Name': top_batter['batter'],
+            'Runs': top_batter['batsman_runs']
+        },
+        'Top Striker': {
+            'Name': top_striker,
+            'Strike Rate': strike_rate
+        },
+        'Most 4s': {
+            'Name': top_4s_batter['batter'],
+            'Count': top_4s_batter['number_of_4s']
+        },
+        'Most 6s': {
+            'Name': top_6s_batter['batter'],
+            'Count': top_6s_batter['number_of_6s']
+        },
+        'Most Wickets': {
+            'Name': top_bowler['bowler'],
+            'Wickets': top_bowler['wickets']
+        },
+        'Most Dots': {
+            'Name': top_dots_bowler['bowler'],
+            'Count': top_dots_bowler['number_of_dots']
+        }
     }
 
 
@@ -457,9 +528,15 @@ def get_player_team_in_season(player, season):
     season_deliveries = deliveries[deliveries['match_id'].isin(all_match_ids_in_a_season)]
 
     # Get the team of the player
-    player_data = season_deliveries[(season_deliveries['batter'] == player) | (season_deliveries['bowler'] == player)]
+    batter_data = season_deliveries[(season_deliveries['batter'] == player)]
+
+    bowler_data = season_deliveries[(season_deliveries['bowler'] == player)]
     
-    if not player_data.empty:
-        return player_data['batting_team'].iloc[0]
-    
-    return None
+    if len(batter_data) > 0:
+        team = batter_data['batting_team'].iloc[0]
+        return team
+    elif len(bowler_data) > 0:
+        team = bowler_data['bowling_team'].iloc[0]
+        return team
+    else:
+        return None

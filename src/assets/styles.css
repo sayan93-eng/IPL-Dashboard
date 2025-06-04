@@ -544,12 +544,14 @@ h1 {
     color: var(--team-color);
     padding: 8px;
     border-bottom: 1px solid #333;
+    text-align: center !important;
 }
 
 .bowler-name {
     color: var(--team-color);
     padding: 8px;
     border-bottom: 1px solid #333;
+    text-align: center !important;
 }
 
 .batters-container h2,

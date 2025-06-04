@@ -131,11 +131,11 @@ app.layout = html.Div(children=[
                     dcc.Dropdown(
                         id='teams-dropdown',
                         options=[],  # Will be populated based on season
-                        placeholder='Select a team to view detailed stats',
+                        placeholder='Select Team',
                         value=None,
                         clearable=True
                     )
-                ], className='col-md-6 mx-auto')
+                ], className='col-md-6 mx-auto text-center')
             ],
             className='row my-3 mx-auto',
             style={'display': 'none', 'padding': '20px'}
@@ -152,11 +152,11 @@ app.layout = html.Div(children=[
                             {'label': 'Batters', 'value': 'batters'},
                             {'label': 'Bowlers', 'value': 'bowlers'}
                         ],
-                        placeholder='Select player type',
+                        placeholder='Select Player Type',
                         value=None,
                         clearable=False
                     )
-                ], className='col-md-6 mx-auto'),
+                ], className='col-md-6 mx-auto text-center'),
             ],
             className='row my-3 mx-auto',
             style={'display': 'none', 'padding': '20px'}
@@ -279,13 +279,50 @@ def render_content(selected_tab, selected_season, selected_team, player_type):
                                 html.Tr([
                                     html.Td('Highest Score (Batting Second):', style={'color': 'white', 'padding': '10px', 'fontWeight': 'bold'}),
                                     html.Td(f"{team_stats['Highest score batting second']}", style={'color': 'white', 'padding': '10px'})
-                                ])
+                                ]),
+                                html.Tr([
+                                    html.Td('Lowest Score (Batting First):', style={'color': 'white', 'padding': '10px', 'fontWeight': 'bold'}),
+                                    html.Td(f"{team_stats['Lowest score batting first']}", style={'color': 'white', 'padding': '10px'})
+                                ]),
+                                html.Tr([
+                                    html.Td('Lowest Score (Batting Second):', style={'color': 'white', 'padding': '10px', 'fontWeight': 'bold'}),
+                                    html.Td(f"{team_stats['Lowest score batting second']}", style={'color': 'white', 'padding': '10px'})
+                                ]),
+                                # Batting and Bowling Stats
+                                # Batting Stats
+                                # Get the top batter's name and stats
+                                html.Tr([
+                                    html.Td('Most Runs:', style={'color': 'white', 'padding': '10px', 'fontWeight': 'bold'}),
+                                    html.Td(f"{team_stats['Most Runs']['Name']} ({team_stats['Most Runs']['Runs']} runs)", style={'color': 'white', 'padding': '10px'})
+                                ]),
+                                html.Tr([
+                                    html.Td('Highest Strike Rate:', style={'color': 'white', 'padding': '10px', 'fontWeight': 'bold'}),
+                                    html.Td(f"{team_stats['Top Striker']['Name']} ({team_stats['Top Striker']['Strike Rate']})", style={'color': 'white', 'padding': '10px'})
+                                ]),
+                                html.Tr([
+                                    html.Td('Most 4s:', style={'color': 'white', 'padding': '10px', 'fontWeight': 'bold'}),
+                                    html.Td(f"{team_stats['Most 4s']['Name']} ({team_stats['Most 4s']['Count']})", style={'color': 'white', 'padding': '10px'})
+                                ]),
+                                html.Tr([
+                                    html.Td('Most 6s:', style={'color': 'white', 'padding': '10px', 'fontWeight': 'bold'}),
+                                    html.Td(f"{team_stats['Most 6s']['Name']} ({team_stats['Most 6s']['Count']})", style={'color': 'white', 'padding': '10px'})
+                                ]),
+                                # Bowling Stats
+                                html.Tr([
+                                    html.Td('Most Wickets:', style={'color': 'white', 'padding': '10px', 'fontWeight': 'bold'}),
+                                    html.Td(f"{team_stats['Most Wickets']['Name']} ({team_stats['Most Wickets']['Wickets']})", style={'color': 'white', 'padding': '10px'})
+                                ]),
+                                # Most Dot Balls
+                                html.Tr([
+                                    html.Td('Most Dots', style={'color': 'white', 'padding': '10px', 'fontWeight': 'bold'}),
+                                    html.Td(f"{team_stats['Most Dots']['Name']} ({team_stats['Most Dots']['Count']})", style={'color': 'white', 'padding': '10px'})
+                                ]),
                             ])
                         ], style={'width': '100%'})
                     ], className='col-md-6'),
                     
                     html.Div([
-                        html.H4('Recent Form', style={'color': '#24d5ec', 'marginBottom': '20px'}),
+                        html.H4('All Results(Most recent first)', style={'color': '#24d5ec', 'marginTop': '10px', 'marginLeft':'5px', 'fontWeight':'bold'}),
                         html.Div([
                             html.Span(result, style={
                                 'display': 'inline-block',
@@ -298,7 +335,7 @@ def render_content(selected_tab, selected_season, selected_team, player_type):
                                 'lineHeight': '30px',
                                 'margin': '5px',
                                 'fontWeight': 'bold'
-                            }) for result in team_stats['Win Loss Form'][-10:]  # Show last 10 matches
+                            }) for result in team_stats['Win Loss Form'] 
                         ])
                     ], className='col-md-6')
                 ], className='row')
@@ -359,30 +396,36 @@ def render_content(selected_tab, selected_season, selected_team, player_type):
                     html.Table([
                         html.Thead([
                             html.Tr([
-                                html.Th('Rank', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec'}),
-                                html.Th('Batter', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec'}),
-                                html.Th('Innings', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec'}),
-                                html.Th('Runs', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec'}),
-                                html.Th('Average', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec'}),
-                                html.Th('Strike Rate', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec'}),
-                                html.Th('50s', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec'}),
-                                html.Th('100s', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec'})
+                                html.Th('Rank', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'}),
+                                html.Th('Batter', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'}),
+                                html.Th('Innings', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'}),
+                                html.Th('Runs', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'}),
+                                html.Th('Highest Score', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'}),
+                                html.Th('Average', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'}),
+                                html.Th('Strike Rate', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'}),
+                                html.Th('50s', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'}),
+                                html.Th('100s', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'}),
+                                html.Th('4s', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'}),
+                                html.Th('6s', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'}),
                             ])
                         ]),
                         html.Tbody([
                             html.Tr([
-                                html.Td(f"{i+1}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333'}),
+                                html.Td(f"{i+1}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333', 'textAlign': 'center'}),
                                 html.Td(f"{batter['name'].iloc[0] if hasattr(batter['name'], 'iloc') else batter['name']} ({get_player_team_in_season(batter['name'].iloc[0], selected_season)})",
                                         className='batter-name', 
                                         style={
                                             '--team-color':get_team_color(get_player_team_in_season(batter['name'].iloc[0] if hasattr(batter['name'], 'iloc') else batter['name'], selected_season)),
                                         }),
-                                html.Td(f"{batter['number_of_innings']}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333'}),
-                                html.Td(f"{batter['total_runs']}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333'}),
-                                html.Td(f"{batter['batting_average']:.2f}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333'}),
-                                html.Td(f"{batter['strike_rate']:.2f}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333'}),
-                                html.Td(f"{batter['number_of_50s']}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333'}),
-                                html.Td(f"{batter['number_of_100s']}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333'})
+                                html.Td(f"{batter['number_of_innings']}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333', 'textAlign': 'center'}),
+                                html.Td(f"{batter['total_runs']}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333', 'textAlign': 'center'}),
+                                html.Td(f"{batter['highest_score']}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333', 'textAlign': 'center'}),
+                                html.Td(f"{batter['batting_average']:.2f}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333', 'textAlign': 'center'}),
+                                html.Td(f"{batter['strike_rate']:.2f}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333', 'textAlign': 'center'}),
+                                html.Td(f"{batter['number_of_50s']}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333', 'textAlign': 'center'}),
+                                html.Td(f"{batter['number_of_100s']}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333', 'textAlign': 'center'}),
+                                html.Td(f"{batter['number_of_4s']}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333', 'textAlign': 'center'}),
+                                html.Td(f"{batter['number_of_6s']}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333', 'textAlign': 'center'})
                             ]) for i, batter in enumerate(sorted_batters)
                         ])
                     ], style={'width': '100%', 'borderCollapse': 'collapse'})
@@ -403,30 +446,34 @@ def render_content(selected_tab, selected_season, selected_team, player_type):
                     html.Table([
                         html.Thead([
                             html.Tr([
-                                html.Th('Rank', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec'}),
-                                html.Th('Player', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec'}),
-                                html.Th('Innings', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec'}),
-                                html.Th('Wickets', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec'}),
-                                html.Th('Overs', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec'}),
-                                html.Th('Average', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec'}),
-                                html.Th('Economy', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec'}),
-                                html.Th('Strike Rate', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec'})
+                                html.Th('Rank', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'}),
+                                html.Th('Player', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'}),
+                                html.Th('Innings', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'}),
+                                html.Th('Wickets', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'}),
+                                html.Th('Best Bowling', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'}),
+                                html.Th('Overs', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'}),
+                                html.Th('Dots', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'}),
+                                html.Th('Average', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'}),
+                                html.Th('Economy', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'}),
+                                html.Th('Strike Rate', style={'color': 'white', 'padding': '10px', 'borderBottom': '2px solid #24d5ec', 'textAlign': 'center'})
                             ])
                         ]),
                         html.Tbody([
                             html.Tr([
-                                html.Td(f"{i+1}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333'}),
+                                html.Td(f"{i+1}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333', 'textAlign': 'center'}),
                                 html.Td(f"{bowler['name'].iloc[0] if hasattr(bowler['name'], 'iloc') else bowler['name']} ({get_player_team_in_season(bowler['name'].iloc[0], selected_season)})",
                                         className='bowler-name', 
                                         style={ 
                                             '--team-color':get_team_color(get_player_team_in_season(bowler['name'].iloc[0] if hasattr(bowler['name'], 'iloc') else bowler['name'], selected_season)),
                                         }),
-                                html.Td(f"{bowler['number_of_innings']}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333'}),
-                                html.Td(f"{bowler['wickets_taken']}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333'}),
-                                html.Td(f"{bowler['overs']:.1f}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333'}),
-                                html.Td(f"{bowler['average']:.2f}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333'}),
-                                html.Td(f"{bowler['economy_rate']:.2f}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333'}),
-                                html.Td(f"{bowler['strike_rate']:.2f}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333'})
+                                html.Td(f"{bowler['number_of_innings']}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333', 'textAlign': 'center'}),
+                                html.Td(f"{bowler['wickets_taken']}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333', 'textAlign': 'center'}),
+                                html.Td(f"{bowler['best_bowling_figure']}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333', 'textAlign': 'center'}),
+                                html.Td(f"{bowler['overs']:.1f}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333', 'textAlign': 'center'}),
+                                html.Td(f"{bowler['number_of_dots']}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333', 'textAlign': 'center'}),
+                                html.Td(f"{bowler['average']:.2f}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333', 'textAlign': 'center'}),
+                                html.Td(f"{bowler['economy_rate']:.2f}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333', 'textAlign': 'center'}),
+                                html.Td(f"{bowler['strike_rate']:.2f}", style={'color': 'white', 'padding': '8px', 'borderBottom': '1px solid #333', 'textAlign': 'center'})
                             ]) for i, bowler in enumerate(sorted_bowlers)
                         ])
                     ], style={'width': '100%', 'borderCollapse': 'collapse'})
