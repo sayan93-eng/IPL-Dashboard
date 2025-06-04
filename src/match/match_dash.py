@@ -420,7 +420,7 @@ def update_tab_content(selected_match, selected_tab, scorecard_tab, bar_plot_tab
                 fill_color=team_batting_first_color if inning_id == 1 else team_batting_second_color,
                 align='center',
                 # Content vertical alignment
-                font=dict(size=16, color='white', weight='bold'),  # Bold font
+                font=dict(size=16, color='white'),
                 height=30  # Set fixed header height
             ),
             cells=dict(
@@ -457,7 +457,7 @@ def update_tab_content(selected_match, selected_tab, scorecard_tab, bar_plot_tab
                 values=list(bowling_scorecard_df.columns),
                 fill_color=team_batting_first_color if inning_id == 2 else team_batting_second_color,
                 align='center',
-                font=dict(size=16, color='white', weight='bold'),  # Bold font
+                font=dict(size=16, color='white'),  
                 # Bold font
 
                 height=30  # Set fixed header height
