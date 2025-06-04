@@ -633,98 +633,106 @@ def update_tab_content(selected_match, selected_tab, scorecard_tab, bar_plot_tab
     # Vertical bar plot where x = overs, y = runs in that over. Those overs which have wickets will have symbol/s(1 or more wickets) on top of that bar.
     # The bars are offset by 1 over. Will need to fix this. e.g runs and wickets from 0.0 to 0.6 will be added to the 1st bar, and xtick for the bar will be 1.
 
+    # Replace ONLY the bar plot section (elif selected_tab == 'bar-plot':) in your callback with this:
+
     elif selected_tab == 'bar-plot':
-        # Placeholder for bar plot
-        inning_id = 1 if bar_plot_tab == 'inning1' else 2
-        batting_team = team_batting_first if inning_id == 1 else team_batting_second
-        bowling_team = team_batting_second if inning_id == 1 else team_batting_first
+        try:
+            inning_id = 1 if bar_plot_tab == 'inning1' else 2
+            batting_team = team_batting_first if inning_id == 1 else team_batting_second
 
-        # Generate the data
-        runs_in_over = get_data_for_bar_plot(match_id, inning_id)['runs_in_over_list']
-        wicket_overs = get_data_for_bar_plot(match_id, inning_id)['wicket_overs_list']
+            # Generate the data
+            bar_data = get_data_for_bar_plot(match_id, inning_id)
+            runs_in_over = bar_data['runs_in_over_list']
+            wicket_overs = bar_data['wicket_overs_list']
 
-        # Generate the figure
-        bar_plot_innings_by_over = go.Figure(
-            data=go.Bar(
-                x= [i for i in range(1,21)], 
-                y= runs_in_over,
-                name = f"{batting_team}",
-                width=0.3,
-                marker=dict(
-                    color= team_batting_first_color if inning_id == 1 else team_batting_second_color,
-                    line=dict(
-                        width=1,
-                        color='black'
+            # Ensure we have data and create proper x-axis
+            if not runs_in_over:
+                return [html.Div("No bar plot data available", style={'color': 'white', 'padding': '20px'})]
+
+            # Create x-axis based on actual data length, not fixed 1-20
+            x_values = list(range(1, len(runs_in_over) + 1))
+
+            # Generate the figure
+            bar_plot_innings_by_over = go.Figure(
+                data=go.Bar(
+                    x=x_values,  # Use actual data length instead of fixed range
+                    y=runs_in_over,
+                    name=f"{batting_team}",
+                    width=0.6,  # Increased width for better visibility
+                    marker=dict(
+                        color=team_batting_first_color if inning_id == 1 else team_batting_second_color,
+                        line=dict(width=1, color='black')
                     )
                 )
-            ),
-            layout = go.Layout(
-                margin = dict(
-                l = 50,
-                r = 50,
-                t = 50,
-                b = 50,
-                pad = 4
-                ),
-                paper_bgcolor = "LightSteelBlue",
-                barcornerradius=10,
+            )
+
+            # Update layout
+            bar_plot_innings_by_over.update_layout(
+                margin=dict(l=50, r=50, t=50, b=50, pad=4),
+                paper_bgcolor="LightSteelBlue",
                 title=f"Innings Progression: {batting_team}",
                 xaxis=dict(
                     title="Overs",
-                    #tickmode='array',
-                    #ticktext=[str(i) for i in range(1, 21)],  # Create tick labels 1-20
-                    #tickvals=[i for i in range(1, 21)],       # Set tick positions 1-20
-                    #dtick=1,                                  # Force tick at every integer
-                    #showgrid=True
-                    ),
-                yaxis_title="Runs",
+                    tickmode='linear',
+                    tick0=1,
+                    dtick=1,
+                    range=[0.5, len(runs_in_over) + 0.5]  # Dynamic range based on data
+                ),
+                yaxis=dict(title="Runs"),
                 showlegend=True
             )
-        )
-        # Create the marker design
-        marker = dict(
-            color='red',
-            size=24,
-            symbol='circle',
-            line = dict(
-                color = 'black',
-                width=1
-            )
-        )
 
-        # Get unique overs where wickets fell
-        unique_wicket_overs = list(set(wicket_overs))
+            # Add wicket markers only if we have wicket data
+            if wicket_overs:
+                marker = dict(
+                    color='red',
+                    size=20,
+                    symbol='circle',
+                    line=dict(color='black', width=1)
+                )
 
-        # Add markers for each wicket
-        for over in unique_wicket_overs:
+                # Get unique overs where wickets fell
+                unique_wicket_overs = list(set(wicket_overs))
 
-            # Count how many wickets fell in this over
-            wickets_in_over = wicket_overs.count(over)
+                # Add markers for each wicket
+                for over in unique_wicket_overs:
+                    # Ensure the over is within our data range
+                    if over <= len(runs_in_over):
+                        wickets_in_over = wicket_overs.count(over)
+                        
+                        for w in range(wickets_in_over):
+                            base_offset = 2
+                            spacing = 3
+                            y_offset = base_offset + (w * spacing)
+                            
+                            bar_plot_innings_by_over.add_trace(
+                                go.Scatter(
+                                    x=[over],
+                                    y=[runs_in_over[over-1] + y_offset],
+                                    mode='markers',
+                                    marker=marker,
+                                    showlegend=False,
+                                    hovertemplate="Wicket<extra></extra>"
+                                )
+                            )
 
-            # Add a marker for each wicket
-            for w in range(wickets_in_over):
-                base_offset = 2
-                spacing = 3
-                y_offset = base_offset + (w * spacing)  # Adjust spacing between markers
-                bar_plot_innings_by_over.add_trace(
-                    go.Scatter(
-                        x=[over],
-                        y=[runs_in_over[over-1] + y_offset],
-                        mode='markers',
-                        marker=marker,
-                        #name=f'W{w+1}' if wickets_in_over > 1 else 'Wicket',
-                        showlegend=False
-                    )
-            )
-            
-
-        return [
-            html.Div([
-                dcc.Graph(figure=bar_plot_innings_by_over)
-            ], className='row my-4 bar-plot-container', style={
-                '--team-color': team_batting_first_color if inning_id == 1 else team_batting_second_color 
-            }),
-        ]
+            return [
+                html.Div([
+                    dcc.Graph(figure=bar_plot_innings_by_over)
+                ], className='row my-4 bar-plot-container', style={
+                    '--team-color': team_batting_first_color if inning_id == 1 else team_batting_second_color 
+                }),
+            ]
+        
+        except Exception as e:
+            # More detailed error reporting
+            import traceback
+            error_details = traceback.format_exc()
+            return [html.Div([
+                html.H3("Bar Plot Error", style={'color': 'red'}),
+                html.P(f"Error: {str(e)}", style={'color': 'white'}),
+                html.Pre(error_details, style={'color': 'white', 'fontSize': '12px', 'overflow': 'auto'})
+            ], style={'padding': '20px'})]
     
 
     ############################################################### LINE PLOT #######################################################
