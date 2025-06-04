@@ -340,7 +340,7 @@ h1 {
 
 /* ################################################################################### SEASON APP ############################################################################ */
 
-.matches-container {
+.season-container {
     background-color: black;
     color: white;
     border-radius: 8px;
@@ -520,6 +520,48 @@ h1 {
     position: absolute;
     top: 20%;
     left: -10px;
+}
+
+
+.team-container {
+    background-color: black !important;
+    padding-top: 20px 0px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 -10px 5px var(--team-color), 0 1px 2px var(--team-color) !important;
+}
+
+.team-container h2 {
+    text-align: center !important;
+    color: white;
+    padding: 15px !important;
+    padding-top: 0px;
+    margin-top: 0px !important;
+    border-bottom: 2px solid var(--team-color);
+    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+}
+
+.batter-name {
+    color: var(--team-color);
+    padding: 8px;
+    border-bottom: 1px solid #333;
+}
+
+.bowler-name {
+    color: var(--team-color);
+    padding: 8px;
+    border-bottom: 1px solid #333;
+}
+
+.batters-container h2,
+.bowlers-container h2 {
+    padding: 10px;
+    margin: 30px 0;
+    text-align: center;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+    border-radius: 5px;
+    box-shadow: 0px -10px 5px #24d5ec,  0px 1px 2px #24d5ec!important;
 }
 
 /* ################################################################################### ALLTIME APP ############################################################################ */

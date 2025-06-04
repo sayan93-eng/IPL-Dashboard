@@ -338,7 +338,10 @@ def get_bowler_stats(season):
         bowler_stats['overs'] = over_no + ball_no
 
         # Average
-        bowler_stats['average'] = float(bowler_stats['runs_conceded']/total_wickets)
+        try:
+            bowler_stats['average'] = float(bowler_stats['runs_conceded']/total_wickets)
+        except ZeroDivisionError:
+            continue
 
         # Econ
         econ_over_no = float(int(legal_balls_bowled/6))
@@ -347,7 +350,10 @@ def get_bowler_stats(season):
         bowler_stats['economy_rate'] = bowler_stats['runs_conceded']/econ_over
 
         # Strike Rate
-        bowler_stats['strike_rate'] = float(legal_balls_bowled/total_wickets)
+        try:
+            bowler_stats['strike_rate'] = float(legal_balls_bowled/total_wickets)
+        except ZeroDivisionError:
+            continue
 
         # Dots
         bowler_stats['number_of_dots'] = len(bowler_data[bowler_data['total_runs'] == 0])
@@ -397,7 +403,12 @@ def get_bowler_stats(season):
 ####################################################################### POINTS TABLE #####################################################################
 
 def calculate_points_table(season):
-    pass
+    season_data = matches[matches['season'] == season]
+
+    # Get all the teams that played in that season
+    teams_list = season_data['team1'].unique().tolist()
+
+    return teams_list
 
 """
 NRR = (Total runs scored by team / Total overs faced by team) - (Total runs conceded or scored against team / Total overs bowled by team)
@@ -413,3 +424,42 @@ Now, even though SRH faced just 16.4 overs, the full quota of 20 overs was consi
 
 However, if they had chased down the total in 19.1 overs, the calculation of 19.1 would have been used, not 20.
 """
+
+def get_all_players_in_season(season):
+    """
+    Returns a list of all players who played in the given season.
+    """
+    season_data = matches[matches['season'] == season]
+    
+    # Get all match_ids in a season
+    all_match_ids_in_a_season = season_data['id'].tolist()
+
+    # Get all deliveries from all matches in season
+    season_deliveries = deliveries[deliveries['match_id'].isin(all_match_ids_in_a_season)]
+
+    # Get list of all players who have played at least 1 ball in the season
+    players_in_season = pd.concat([season_deliveries['batter'], season_deliveries['bowler']]).unique().tolist()
+
+    return players_in_season
+
+
+# Define a function the team of the player in a given season
+def get_player_team_in_season(player, season):
+    """
+    Returns the team of the player in the given season.
+    """
+    season_data = matches[matches['season'] == season]
+    
+    # Get all match_ids in a season
+    all_match_ids_in_a_season = season_data['id'].tolist()
+
+    # Get all deliveries from all matches in season
+    season_deliveries = deliveries[deliveries['match_id'].isin(all_match_ids_in_a_season)]
+
+    # Get the team of the player
+    player_data = season_deliveries[(season_deliveries['batter'] == player) | (season_deliveries['bowler'] == player)]
+    
+    if not player_data.empty:
+        return player_data['batting_team'].iloc[0]
+    
+    return None
