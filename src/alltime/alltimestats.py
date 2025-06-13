@@ -266,8 +266,31 @@ def get_bowler_career_stats(bowler):
 
 
 
+def get_misc_stats(player):
+    pom = matches[matches['player_of_match'] == player]
+    if len(pom) > 1:
+        last_pom = pom.iloc[-1]
+        last_pom_details = f"{last_pom['date']} - {last_pom['team1']} vs {last_pom['team2']}"
+    else:
+        last_pom_details = 'NA'
+    pom_awards = len(pom)
+
+    return {
+        'POM Awards': pom_awards,
+        'Last POM': last_pom_details
+    }
 
 
+def get_fielding_stats(player):
+    caught = len(deliveries[(deliveries['dismissal_kind'] == 'caught') & (deliveries['fielder'] == player)])
+    run_outs = len(deliveries[(deliveries['dismissal_kind'] == 'run out') & (deliveries['fielder'] == player)])
+    stumped = len(deliveries[(deliveries['dismissal_kind'] == 'stumped') & (deliveries['fielder'] == player)])
+
+    return {
+        'Catches': caught,
+        'Run Outs': run_outs,
+        'Stumped': stumped
+    }
 
 
 

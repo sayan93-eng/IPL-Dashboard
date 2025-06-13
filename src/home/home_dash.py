@@ -44,8 +44,10 @@ app.layout = html.Div(children=[
 
             html.Div([
                 homepage_carousel
-            ], className='row my-5 mx-auto', style={
+            ], className='row my-5', style={
                 'padding':'20px',
+                'marginLeft':'15px',
+                'marginRight':'15px',
                 'borderRadius':'10px',
                 'boxShadow': '0 -0 10px #24d5ec, 0 0 10px #24d5ec',
                 'backgroundColor' : 'black'

@@ -4,7 +4,7 @@ from dash import html, dcc
 from dash.dependencies import Input, Output, State
 from src.components.navbar import create_navbar, create_footer
 from src.components.styles import TAB_STYLE, TAB_SELECTED_STYLE, PAGE_CONTAINER_STYLE
-from .alltimestats import get_all_batters, get_all_bowlers, get_batter_vs_bowler_stats, get_bowler_career_stats, get_batter_career_stats, get_seasons_teams
+from .alltimestats import get_all_batters, get_all_bowlers, get_batter_vs_bowler_stats, get_bowler_career_stats, get_batter_career_stats, get_seasons_teams, get_fielding_stats, get_misc_stats
 
 
 """
@@ -297,6 +297,13 @@ def update_stats(selected_tab, selected_player_tab, selected_player, selected_ba
         batting_stats = {**default_batting, **batting_stats}
         bowling_stats = {**default_bowling, **bowling_stats}
 
+
+        # Get fielding stats
+        fielding_stats = get_fielding_stats(selected_player)
+
+        # Get MOM stats
+        pom_stats = get_misc_stats(selected_player)
+
         misc_stats = get_seasons_teams(selected_player)
         last_team_played = ''
         if len(misc_stats['teams']) > 1:
@@ -312,7 +319,7 @@ def update_stats(selected_tab, selected_player_tab, selected_player, selected_ba
 
             # Batting Stats
             html.Div([
-                html.H4("Batting Career"),
+                html.H4("Batting"),
                 html.Div([
                     html.Div([
                         html.H5("Innings", className='metric'),
@@ -342,7 +349,7 @@ def update_stats(selected_tab, selected_player_tab, selected_player, selected_ba
 
             # Bowling Stats
             html.Div([
-                html.H4("Bowling Career", className='mb-3'),
+                html.H4("Bowling", className='mb-3'),
                 html.Div([
                     html.Div([
                         html.H5("Innings", className='metric'),
@@ -373,15 +380,35 @@ def update_stats(selected_tab, selected_player_tab, selected_player, selected_ba
             ], className='bowling-stats-container'),
 
             html.Div([
+                html.H4("Fielding", className='mb-3'),
+                html.Div([
+                    html.Div([
+                        html.H5("Catches", className='metric'),
+                        html.H5("Run Outs", className='metric'),
+                        html.H5("Stumpings", className='metric')
+                    ], className='stats-metric'),
+                    html.Div([
+                        html.H5(f"{fielding_stats['Catches']}", className='value'),
+                        html.H5(f"{fielding_stats['Run Outs']}", className='value'),
+                        html.H5(f"{fielding_stats['Stumped']}", className='value')
+                    ], className='stats-value')
+                ], className='stats-box')
+            ], className='fielding-stats-container'),
+
+            html.Div([
                 html.H4("Misc", className='mb-3'),
                 html.Div([
                     html.Div([
                         html.H5("Seasons", className='metric'),
-                        html.H5("Teams", className='metric')
+                        html.H5("Teams", className='metric'),
+                        html.H5("Player of Match Awards", className='metric'),
+                        html.H5("Last Player of Match", className='metric')
                     ], className='stats-metric'),
                     html.Div([
                         html.H5(', '.join(map(str, misc_stats['seasons'])), className='value'),
                         html.H5(', '.join(map(str, misc_stats['teams'])), className='value'),
+                        html.H5(f"{pom_stats['POM Awards']}", className='value'),
+                        html.H5(f"{pom_stats['Last POM']}", className='value'),
                     ], className='stats-value')
                 ], className='stats-box')
             ],className='misc-stats-container')
@@ -472,7 +499,7 @@ def update_stats(selected_tab, selected_player_tab, selected_player, selected_ba
             ]),
         ], style={
             'padding':'20px',
-            'margin':'20px auto',
+            'margin':'20px 40px 20px 10px',
             'borderRadius':'8px',
             'backgroundColor':'black',
             'color':'white',

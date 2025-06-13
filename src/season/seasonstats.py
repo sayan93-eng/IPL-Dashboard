@@ -143,20 +143,36 @@ def get_team_stats(season, team):
     # Get all deliveries from all matches in season for the team
     deliveries_for_team = deliveries[deliveries['match_id'].isin(all_match_ids_in_a_season_for_team)]
 
+
     # Get the batter with the most runs
     batter_runs = deliveries_for_team.groupby('batter')['batsman_runs'].sum().reset_index()
     batter_runs = batter_runs.sort_values(by='batsman_runs', ascending=False).reset_index(drop=True)
     top_batter = batter_runs.iloc[0]
 
+
     # Get the batter with the highest strike rate with more than 100 balls faced
-    deliveries_for_team['total_balls'] = deliveries_for_team.groupby('batter').cumcount() + 1
-    deliveries_for_team['strike_rate'] = (deliveries_for_team['batsman_runs'] / deliveries_for_team['total_balls']) * 100
-    top_striker = deliveries_for_team.groupby('batter').agg({'strike_rate': 'mean', 'total_balls': 'max'}).reset_index()
-    top_striker = top_striker[top_striker['total_balls'] > 100]
-    top_striker = top_striker.sort_values(by='strike_rate', ascending=False).reset_index(drop=True)
-    top_striker = top_striker.iloc[0]
-    strike_rate = top_striker['strike_rate']
+    batters = deliveries_for_team[deliveries_for_team['batter'].notnull()]['batter'].unique().tolist()
+
+    batter_df = deliveries_for_team.groupby('batter')['batsman_runs'].sum()
+    batter_df = batter_df.sort_values(ascending=False).reset_index()
+
+    for batter in batters:
+        batter_data = deliveries_for_team[deliveries_for_team['batter'] == batter]
+        all_deliveries_faced = len(batter_data)
+        illegal_deliveries_faced = len(batter_data[(batter_data['extras_type'] == 'noballs') | (batter_data['extras_type'] == 'wides')])
+        legaL_deliveries_faced = all_deliveries_faced - illegal_deliveries_faced
+        strike_rate = (batter_data['batsman_runs'].sum() / legaL_deliveries_faced) * 100 if legaL_deliveries_faced > 0 else 0
+        batter_df.loc[batter_df['batter'] == batter, 'balls_faced'] = legaL_deliveries_faced
+        batter_df.loc[batter_df['batter'] == batter, 'strike_rate'] = strike_rate
    
+    # Filter out batters with less than 100 balls faced
+    batter_df = batter_df[batter_df['balls_faced'] >= 100]
+    # Sort by strike rate
+    batter_df = batter_df.sort_values(by='strike_rate', ascending=False).reset_index(drop=True)
+    
+    top_striker = batter_df.iloc[0]['batter']
+    strike_rate = batter_df.iloc[0]['strike_rate']
+
 
     # Get the batter with the most 4s
     number_of_4s = deliveries_for_team[deliveries_for_team['batsman_runs'] == 4].groupby('batter').size().reset_index(name='number_of_4s')

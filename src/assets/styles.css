@@ -76,6 +76,39 @@ h1 {
     padding: 0 10px;     
 }
 
+
+/* Generic tab styles that apply to all tabs */
+.tab {
+    border-bottom: 1px solid #d6d6d6 !important;
+    font-weight: bold !important;
+    border-radius: 5px !important;
+    background-color: #1f3144 !important;
+    color: #24d5ec !important;
+    transition: all 0.3s ease-in-out !important;
+    cursor: pointer !important;
+}
+
+.tab:hover {
+    background-color: #ffffff !important;
+    color: #287ed4 !important;
+    box-shadow: 0 2px 4px rgba(36, 213, 236, 0.2) !important;
+}
+
+.tab--selected {
+    border-top: 1px solid #d6d6d6 !important;
+    border-bottom: 1px solid #d6d6d6 !important;
+    background-color: #ffffff !important;
+    color: #24d5ec !important;
+    padding: 6px !important;
+    border-radius: 5px !important;
+}
+
+.tab--selected:hover {
+    background-color: #ffffff !important;
+    color: #24d5ec !important;
+    box-shadow: 0 2px 4px rgba(36, 213, 236, 0.2) !important;
+}
+
 .card {
     border-radius: '8px';
     box-shadow: 0 0px 8px var(--team-color);
@@ -171,7 +204,7 @@ h1 {
     background-color: rgb(0, 0, 0);
     box-shadow: 0px -10px 10px var(--batting-team-color), 0px 10px 10px var(--batting-team-color) !important;
     padding: 20px;
-    margin: 30px 0;
+    margin: 30px 40px 30px 0px !important;
 }
 
 .batting-header {
@@ -190,7 +223,7 @@ h1 {
     background-color: rgb(0, 0, 0);
     box-shadow: 0px -10px 10px var(--bowling-team-color), 0px 10px 10px var(--bowling-team-color) !important;
     padding: 20px;
-    margin: 120px 0;
+    margin: 120px 40px 120px 0px !important;
 }
 
 
@@ -260,7 +293,7 @@ h1 {
     background-color: white;
     box-shadow: 0px -10px 10px var(--team-color), 0px 10px 10px var(--team-color) !important;
     padding: 20px;
-    margin: 30px 0;
+    margin: 30px 40px 30px 0px !important;
 }
 
 .line-plot-container {
@@ -268,7 +301,7 @@ h1 {
     background-color: white;
     box-shadow: -10px 0 10px var(--batting-team-color), 10px 0 10px var(--bowling-team-color), 0px 10px 10px var(--bowling-team-color), 0px -10px 10px var(--batting-team-color) !important;
     padding: 20px;
-    margin: 30px 0;
+    margin: 30px 40px 30px 0px !important;
 }
 
 .pie-chart-container {
@@ -276,7 +309,7 @@ h1 {
     background-color: white;
     box-shadow: 0px -10px 10px var(--team-color), 0px 10px 10px var(--team-color) !important;
     padding: 20px;
-    margin: 30px 0;
+    margin: 30px 40px 30px 0px !important;
 }
 
 
@@ -312,7 +345,10 @@ h1 {
 #season-dropdown .Select-control,
 #match-dropdown .Select-control,
 #batter-dropdown .Select-control,
-#bowler-dropdown .Select-control {
+#bowler-dropdown .Select-control,
+#player-dropdown .Select-control,
+#teams-dropdown .Select-control,
+#player-type-dropdown .Select-control {
     border-radius: 5px;
     box-shadow: 0 0 10px #24d5ec !important;
     transition: box-shadow 0.3s ease;
@@ -322,7 +358,10 @@ h1 {
 #season-dropdown .Select-control:hover,
 #match-dropdown .Select-control:hover, 
 #batter-dropdown .Select-control:hover,
-#bowler-dropdown .Select-control:hover{
+#bowler-dropdown .Select-control:hover,
+#player-dropdown .Select-control:hover,
+#teams-dropdown .Select-control:hover,
+#player-type-dropdown .Select-control:hover{
     box-shadow: 0 0 15px #24d5ec !important;
 }
 
@@ -349,9 +388,27 @@ h1 {
     margin: 30px 0;
 }
 
+.matches-container {
+    padding: 0px;
+    margin: 20px auto;
+    box-shadow: 0px -10px 10px #24d5ec, 0 10px 10px #24d5ec;
+    border-radius: 8px;
+}
+
+.matches-container h2{
+    padding: 20px;
+    margin: 0px auto;
+    text-align: center;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+    border-bottom: 2px solid #24d5ec !important;
+}
+
+/*
 .matches-header {
-    padding: 10px;
-    margin: 30px 0;
+    padding: 0px;
+    margin: 0px auto;
     text-align: center;
     background-color: rgb(0, 0, 0);
     color: white;
@@ -360,14 +417,16 @@ h1 {
     box-shadow: 0px -10px 5px #24d5ec,  0px 1px 2px #24d5ec!important;
 
 }
+    */
+
 
 .matches-list {
-    padding: 30px;
-    margin: 30px 0;
-    background-color: rgb(0, 0, 0);
+    padding: 0;
+    margin: 0;
+    background-color: black;
     color: white;
     border-radius: 5px;
-    box-shadow: 0px -10px 5px #24d5ec,  0px 1px 2px #24d5ec!important;
+    /* box-shadow: 0px -10px 5px #24d5ec,  0px 1px 2px #24d5ec!important; */
 }
 
 
@@ -396,7 +455,7 @@ h1 {
 
 .event {
     padding: 20px;  
-    margin: 60px 0;
+    margin: 80px 0;
     border-radius: 5px;
     background: #000000;
     position: relative;
@@ -524,20 +583,22 @@ h1 {
 
 
 .team-container {
+    padding: 20px !important;
+    margin: 0px 40px 20px 10px !important;
     background-color: black !important;
-    padding-top: 20px 0px !important;
+    color: white !important;
     border-radius: 8px !important;
-    box-shadow: 0 -10px 5px var(--team-color), 0 1px 2px var(--team-color) !important;
+    box-shadow: 0px -10px 10px var(--team-color), 0 10px 10px var(--team-color) !important;
 }
 
 .team-container h2 {
-    text-align: center !important;
+    padding: 0px 0px 20px 0px;
+    margin: 0px auto;
+    text-align: center;
+    background-color: rgb(0, 0, 0);
     color: white;
-    padding: 15px !important;
-    padding-top: 0px;
-    margin-top: 0px !important;
-    border-bottom: 2px solid var(--team-color);
     font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+    border-bottom: 2px solid var(--team-color) !important;
 }
 
 .batter-name {
@@ -554,16 +615,22 @@ h1 {
     text-align: center !important;
 }
 
+.batters-container,
+.bowlers-container {
+    box-shadow: 0px -10px 5px #24d5ec,  0px 1px 2px #24d5ec!important;
+    border-radius: 8px;
+}
+
 .batters-container h2,
 .bowlers-container h2 {
-    padding: 10px;
-    margin: 30px 0;
+    padding: 20px;
+    margin: 0px auto;
     text-align: center;
     background-color: rgb(0, 0, 0);
     color: white;
     font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
-    border-radius: 5px;
-    box-shadow: 0px -10px 5px #24d5ec,  0px 1px 2px #24d5ec!important;
+    border-bottom: 2px solid #24d5ec !important;
+    /*box-shadow: 0px -10px 5px #24d5ec,  0px 1px 2px #24d5ec!important; */
 }
 
 /* ################################################################################### ALLTIME APP ############################################################################ */
@@ -588,16 +655,13 @@ h1 {
 
 #stats-output-container {
     padding: 20px !important;
-    width: 100% !important;
+    margin: 20px 20px 20px 0px !important;
 }
 
 
-/* Add these styles to your styles.css file */
-
 .stats-container {
     padding: 20px !important;
-    margin: 20px auto !important;
-    width: 100% !important;
+    margin: 20px 40px 20px 10px !important;
     background-color: black !important;
     color: white !important;
     border-radius: 8px !important;
@@ -608,30 +672,36 @@ h1 {
     text-align: center !important;
     padding: 15px !important;
     margin-top: 0 !important;
-    border-bottom: 2px solid var(--team-color);
-    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+    border-bottom: 2px solid var(--team-color) !important;
+    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif !important;
 }
 
 /* Stats section containers */
 .batting-stats-container,
 .bowling-stats-container,
-.misc-stats-container {
-    padding: 20px;
-    margin: 20px 0;
-    border-radius: 8px;
-    background-color: rgba(36, 213, 236, 0.1);
+.misc-stats-container,
+.team-stats-container,
+.player-stats-container,
+.fielding-stats-container {
+    padding: 20px !important;
+    margin: 20px 0 !important;
+    border-radius: 8px !important;
+    background-color: rgba(36, 213, 236, 0.1) !important;
 }
 
 /* Section headers */
 .batting-stats-container h4,
 .bowling-stats-container h4,
-.misc-stats-container h4 {
-    color: white;
-    text-align: center;
-    padding-bottom: 15px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid var(--team-color);
-    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+.misc-stats-container h4,
+.team-stats-container h4,
+.player-stats-container h4,
+.fielding-stats-container h4 {
+    color: white !important; 
+    text-align: center !important;
+    padding-bottom: 15px !important;
+    margin-bottom: 20px !important;
+    border-bottom: 1px solid var(--team-color) !important;
+    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif !important;
 }
 
 .stats-box {

@@ -658,7 +658,7 @@ def update_tab_content(selected_match, selected_tab, scorecard_tab, bar_plot_tab
                     x=x_values,  # Use actual data length instead of fixed range
                     y=runs_in_over,
                     name=f"{batting_team}",
-                    width=0.6,  # Increased width for better visibility
+                    width=0.3,  # Increased width for better visibility
                     marker=dict(
                         color=team_batting_first_color if inning_id == 1 else team_batting_second_color,
                         line=dict(width=1, color='black')
