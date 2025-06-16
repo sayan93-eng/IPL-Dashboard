@@ -1,14 +1,11 @@
 import plotly.graph_objects as go
 import pandas as pd
+from src.utils.data_loader import load_matches_data, load_deliveries_data
 
+# Read CSV files with correct paths
+deliveries = load_deliveries_data()
+matches = load_matches_data()
 
-# Define file paths for source files.
-csv_file_path_deliveries = 'C:/Sayan/App-Statistical Probability Model/Sports/IPL/venv-mlmodel/ipl_complete_dataset_2008-2024/deliveries.csv'
-csv_file_path_matches = 'C:/Sayan/App-Statistical Probability Model/Sports/IPL/venv-mlmodel/ipl_complete_dataset_2008-2024/matches.csv'
-
-# Read the csv files into dataframes
-deliveries = pd.read_csv(csv_file_path_deliveries)
-matches = pd.read_csv(csv_file_path_matches)
 
 replacements = {
     '2007/08' : '2008',
