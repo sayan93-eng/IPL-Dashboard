@@ -6,6 +6,7 @@ from dash import dcc, html
 from dash.dependencies import Input, Output
 import plotly.express as px
 from .seasonstats import get_match_list_for_season, get_match_summary_list, get_team_stats, get_batter_stats, get_bowler_stats, get_player_team_in_season
+from .win_loss_bar_chart import create_sequential_team_charts
 from src.components.navbar import create_navbar, create_footer
 from src.components.styles import TAB_STYLE, TAB_SELECTED_STYLE, PAGE_CONTAINER_STYLE
 from src.components.season_vertical_timeline import create_vertical_timeline
@@ -412,9 +413,34 @@ def render_content(selected_tab, selected_season, selected_team, player_type, te
             
             elif teams_subtab == 'teams-charts':
                 
+                # Show charts for the selected team
+                figures = create_sequential_team_charts(selected_team, selected_season, matches)
+                fig_by_runs = figures[0]
+                fig_by_wickets = figures[1]
                 content = html.Div([
-                    f"Charts and Graphs coming soon"
-                ], className='team-container')
+                    html.Div([
+                        html.H2(f'{selected_team} - Season {selected_season} Win/Loss (By Runs)'),
+                        html.Div([
+                            dcc.Graph(
+                            id='win-loss-by-runs',
+                            figure=fig_by_runs,
+                            config={'displayModeBar': False}
+                        )
+                        ], className='fig-runs')
+                    ], className='win-loss-runs-container'),
+                    html.Div([
+                        html.H2(f'{selected_team} - Season {selected_season} Win/Loss (By Wickets)'),
+                        html.Div([
+                            dcc.Graph(
+                            id='win-loss-by-wickets',
+                            figure=fig_by_wickets,
+                            config={'displayModeBar': False}
+                        )
+                        ], className='fig-wickets')
+                    ], className='win-loss-wickets-container')
+                ], className='team-container', style={
+                    '--team-color': teamcolor
+                })
 
                 return content, content_style
         

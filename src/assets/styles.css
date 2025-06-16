@@ -601,6 +601,29 @@ h1 {
     border-bottom: 2px solid var(--team-color) !important;
 }
 
+.win-loss-wickets-container {
+    margin-top: 40px;
+}
+
+.win-loss-runs-container h2,
+.win-loss-wickets-container h2 {
+    padding: 0px 0px 20px 0px;
+    margin: 0px auto;
+    text-align: center;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+    border-bottom: 2px solid var(--team-color) !important;
+}
+
+.fig-runs,
+.fig-wickets {
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+
 .batter-name {
     color: var(--team-color);
     padding: 8px;
